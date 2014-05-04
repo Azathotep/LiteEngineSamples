@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Referenced Projects", "Referenced Projects", "{8EF1C549-BB3F-47BC-A4F2-FE582207E270}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteEngine", "LiteEngine\LiteEngine\LiteEngine.csproj", "{35C84CE0-5661-4133-98AE-3448F07E93C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics MonoGame", "LiteEngine\Farseer Physics Engine 3.5\Farseer Physics MonoGame.csproj", "{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Windows", "LiteEngine\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj", "{7DE47032-A904-4C29-BD22-2D235E8D91BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireFlies", "FireFlies\FireFlies.csproj", "{20533BED-E268-4540-B609-E59CC1242F76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Debug|x86.ActiveCfg = Debug|x86
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Debug|x86.Build.0 = Debug|x86
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Release|x86.ActiveCfg = Release|x86
+		{35C84CE0-5661-4133-98AE-3448F07E93C3}.Release|x86.Build.0 = Release|x86
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Debug|x86.ActiveCfg = Debug|x86
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Debug|x86.Build.0 = Debug|x86
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Release|x86.ActiveCfg = Release|x86
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7}.Release|x86.Build.0 = Release|x86
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{20533BED-E268-4540-B609-E59CC1242F76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20533BED-E268-4540-B609-E59CC1242F76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20533BED-E268-4540-B609-E59CC1242F76}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{20533BED-E268-4540-B609-E59CC1242F76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20533BED-E268-4540-B609-E59CC1242F76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20533BED-E268-4540-B609-E59CC1242F76}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35C84CE0-5661-4133-98AE-3448F07E93C3} = {8EF1C549-BB3F-47BC-A4F2-FE582207E270}
+		{0AAD36E3-51A5-4A07-AB60-5C8A66BD38B7} = {8EF1C549-BB3F-47BC-A4F2-FE582207E270}
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA} = {8EF1C549-BB3F-47BC-A4F2-FE582207E270}
+	EndGlobalSection
+EndGlobal
