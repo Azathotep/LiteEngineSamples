@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Windows"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireFlies", "FireFlies\FireFlies.csproj", "{20533BED-E268-4540-B609-E59CC1242F76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Text", "Text\Text.csproj", "{3EEA43A4-EA4E-4A90-972B-0357B51113E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lines", "Lines\Lines.csproj", "{FEED2823-1373-46A6-A683-D1C589BB8E43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,18 @@ Global
 		{20533BED-E268-4540-B609-E59CC1242F76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20533BED-E268-4540-B609-E59CC1242F76}.Release|Any CPU.Build.0 = Release|Any CPU
 		{20533BED-E268-4540-B609-E59CC1242F76}.Release|x86.ActiveCfg = Release|Any CPU
+		{3EEA43A4-EA4E-4A90-972B-0357B51113E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EEA43A4-EA4E-4A90-972B-0357B51113E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EEA43A4-EA4E-4A90-972B-0357B51113E7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EEA43A4-EA4E-4A90-972B-0357B51113E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EEA43A4-EA4E-4A90-972B-0357B51113E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EEA43A4-EA4E-4A90-972B-0357B51113E7}.Release|x86.ActiveCfg = Release|Any CPU
+		{FEED2823-1373-46A6-A683-D1C589BB8E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEED2823-1373-46A6-A683-D1C589BB8E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEED2823-1373-46A6-A683-D1C589BB8E43}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FEED2823-1373-46A6-A683-D1C589BB8E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEED2823-1373-46A6-A683-D1C589BB8E43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEED2823-1373-46A6-A683-D1C589BB8E43}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
