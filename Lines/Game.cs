@@ -1,4 +1,5 @@
-﻿using LiteEngine.Math;
+﻿using LiteEngine.Core;
+using LiteEngine.Math;
 using LiteEngine.Rendering;
 using LiteEngine.UI;
 using LiteEngine.Xna;
@@ -25,14 +26,17 @@ namespace Lines
         float _angle;
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)
         {
+            renderer.Clear(Color.White);
             Vector2 start = new Vector2(0,0);
             Vector2 end = start + Util.AngleToVector(_angle) * _lineLength;
             renderer.BeginDraw(_camera);
-            
-            renderer.DrawLine(start, end, Color.Blue, 0.5f);
 
-            renderer.DrawPoint(start, 2f, Color.Green, 0f);
-            renderer.DrawPoint(end, 2f, Color.Red, 0f);
+            renderer.DrawLine(start, end, 0.5f, Color.Black, 1f);
+
+            renderer.DrawArrow(start, -end, 0.5f, Color.Black, 1f);
+
+            renderer.DrawPoint(start, 3f, Color.Green, 1f);
+            renderer.DrawPoint(end, 3f, Color.Red, 1f);
             renderer.EndDraw();
         }
 
