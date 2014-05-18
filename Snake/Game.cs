@@ -28,6 +28,7 @@ namespace Snake
             _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
             _snake = new Snake(_world);
             _snake.Place(_world.GetRandomEmptyTile());
+            _world.AddFood();
         }
 
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)

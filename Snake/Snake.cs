@@ -59,18 +59,29 @@ namespace Snake
             Tile nextTile = _world.GetNeighbour(Head, _moveDirection);
             if (nextTile.IsWall)
             {
-                game.GetSoundEffect(@"audio\collide").Play();
+                //shorten snake
+                _body.Dequeue();
+                game.GetSoundEffect(@"audio\collide").Play(0.5f, 1f, 0f);
                 return;
             }
             if (nextTile.ContainsFood)
             {
-                game.GetSoundEffect(@"audio\eat").Play();
+                game.GetSoundEffect(@"audio\eat").Play(0.5f, 0f, 0f);
                 nextTile.ContainsFood = false;
                 _growth++;
             }
             if (_body.Contains(nextTile))
             {
-                game.GetSoundEffect(@"audio\collide").Play();
+                game.GetSoundEffect(@"audio\collide").Play(0.5f, 1f, 0f);
+
+                //cut off tail
+                while (true)
+                {
+                    Tile tail = _body.Dequeue();
+                    tail.Anim = 50;
+                    if (tail == nextTile)
+                        break;
+                }
                 return;
             }
             MoveTo(nextTile);

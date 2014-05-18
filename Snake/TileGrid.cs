@@ -74,5 +74,12 @@ namespace Snake
             Tile tile = Dice.RandomElement(emptyTiles);
             return tile;
         }
+
+        internal void AddFood()
+        {
+            foreach (Tile t in AllTiles)
+                if (t.IsEmpty)
+                    t.ContainsFood = true;
+        }
     }
 }

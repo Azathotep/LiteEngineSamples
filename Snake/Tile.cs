@@ -33,6 +33,8 @@ namespace Snake
             }
         }
 
+        public int Anim;
+
         public void Draw(XnaRenderer renderer)
         {
             renderer.DrawDepth = 1f;
@@ -43,6 +45,13 @@ namespace Snake
             renderer.DrawDepth = 0.8f;
             if (ContainsFood)
                 renderer.DrawPoint(new Vector2(0,0), 1f, Color.Green, 1f);
+
+            if (IsEmpty && Anim > 0)
+            {
+                float width = (float)Anim / 50 * 0.45f;
+                renderer.DrawFilledRectangle(new RectangleF(-width, -width, width * 2, width * 2), Color.Gray);
+                Anim--;
+            }
         }
 
         public bool IsWall;
