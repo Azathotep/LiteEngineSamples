@@ -18,7 +18,7 @@ namespace Snake
             for (int y = 0; y < _size.Height; y++)
                 for (int x = 0; x < _size.Width; x++)
                 {
-                    renderer.DrawFilledRectangle(new RectangleF(x, y, 0.9f, 0.9f), Color.Red);
+                    renderer.DrawFilledRectangle(new RectangleF(x, y, 0.9f, 0.9f), Color.Gray);
                 }
         }
     }
