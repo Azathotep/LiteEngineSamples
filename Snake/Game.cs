@@ -20,8 +20,10 @@ namespace Snake
         protected override void Initialize(XnaRenderer renderer)
         {
             renderer.SetScreenSize(1024, 768, false);
-            _camera = new Camera2D(new Vector2(0, 0), new Vector2(50, 50));
-            _grid = new WorldGrid();
+            _grid = new WorldGrid(20,20);
+            _camera = new Camera2D(new Vector2(10, 10), new Vector2(_grid.Size.Width, _grid.Size.Height));
+
+
             _snake = new Snake();
         }
 
@@ -31,18 +33,20 @@ namespace Snake
             renderer.DrawDepth = 1f;
             _grid.Draw(renderer);
             renderer.DrawDepth = 0.5f;
+            renderer.Transformation = Matrix.Identity;
             _snake.Draw(renderer);
             renderer.EndDraw();
         }
 
         int _lastMs;
+        int _delayMs = 100;
+
         protected override void UpdateFrame(GameTime gameTime)
         {
-            int delayMs = 100;
             double ms = gameTime.TotalGameTime.TotalMilliseconds;
-            while (ms - _lastMs > delayMs)
+            while (ms - _lastMs > _delayMs)
             {
-                _lastMs += delayMs;
+                _lastMs += _delayMs;
                 _snake.Update();
             }
         }
@@ -52,16 +56,23 @@ namespace Snake
             switch (key)
             {
                 case Keys.Up:
+                case Keys.W:
                     _snake.MoveDirection = CardinalDirection.North;
                     break;
                 case Keys.Left:
+                case Keys.A:
                     _snake.MoveDirection = CardinalDirection.West;
                     break;
                 case Keys.Right:
+                case Keys.D:
                     _snake.MoveDirection = CardinalDirection.East;
                     break;
                 case Keys.Down:
+                case Keys.S:
                     _snake.MoveDirection = CardinalDirection.South;
+                    break;
+                case Keys.Escape:
+                    Exit();
                     break;
             }
             return 0;

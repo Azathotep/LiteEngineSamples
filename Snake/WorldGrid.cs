@@ -1,4 +1,5 @@
-﻿using LiteEngine.Math;
+﻿using LiteEngine.Core;
+using LiteEngine.Math;
 using LiteEngine.Rendering;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,15 +12,30 @@ namespace Snake
 {
     class WorldGrid
     {
-        SizeI _size = new SizeI(20, 20);
+        SizeI _size;
+        GridCell[,] _grid;
+        public WorldGrid(int width, int height)
+        {
+            _size = new SizeI(20, 20);
+            _grid = new GridCell[width, height];
+            GridHelper.Foreach(_grid, (x, y) => { _grid[x,y] = new GridCell(); });
+        }
+
+        public SizeI Size
+        {
+            get
+            {
+                return _size;
+            }
+        }
 
         public void Draw(XnaRenderer renderer)
         {
-            for (int y = 0; y < _size.Height; y++)
-                for (int x = 0; x < _size.Width; x++)
-                {
-                    renderer.DrawFilledRectangle(new RectangleF(x, y, 0.9f, 0.9f), Color.Gray);
-                }
+            GridHelper.Foreach(_grid, (x, y) =>
+            {
+                renderer.Transformation = Matrix.CreateTranslation(x, y, 0);
+                _grid[x, y].Draw(renderer);
+            });
         }
     }
 }
