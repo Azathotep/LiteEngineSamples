@@ -11,6 +11,28 @@ namespace Snake
 {
     class Tile
     {
+        Vector2I _position;
+        public Tile(int x, int y)
+        {
+            _position = new Vector2I(x,y);
+        }
+
+        public int X
+        {
+            get
+            {
+                return _position.X;
+            }
+        }
+
+        public int Y
+        {
+            get
+            {
+                return _position.Y;
+            }
+        }
+
         public void Draw(XnaRenderer renderer)
         {
             renderer.DrawDepth = 1f;

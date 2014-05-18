@@ -12,24 +12,32 @@ namespace Snake
     class Snake
     {
         CardinalDirection _moveDirection;
-        Queue<Vector2I> _body = new Queue<Vector2I>();
+        Queue<Tile> _body = new Queue<Tile>();
+        TileGrid _world;
 
-        public Snake()
+        public Snake(TileGrid world)
         {
-            _body.Enqueue(new Vector2I(5, 5));
-            _body.Enqueue(new Vector2I(6, 5));
-            _body.Enqueue(new Vector2I(7, 5));
+            _world = world;
+        }
+
+        public void Place(Tile tile)
+        {
+            _body.Enqueue(tile);
+            tile = _world.GetNeighbour(tile, CardinalDirection.East);
+            _body.Enqueue(tile);
+            tile = _world.GetNeighbour(tile, CardinalDirection.East);
+            _body.Enqueue(tile);
         }
 
         public void Draw(XnaRenderer renderer)
         {
-            foreach (Vector2I part in _body)
+            foreach (Tile part in _body)
             {
                 renderer.DrawFilledRectangle(new RectangleF(part.X + 0.1f, part.Y + 0.1f, 0.8f, 0.8f), Color.Green);
             }
         }
 
-        Vector2I Head
+        Tile Head
         {
             get
             {
@@ -43,25 +51,27 @@ namespace Snake
             {
                 return _moveDirection;
             }
-            set
-            {
-                _moveDirection = value;
-            }
         }
 
-        public void Update(TileGrid world)
+        public void Update()
         {
-            Vector2 move = Compass.GetVector(_moveDirection);
-            Vector2I newHeadPosition = Head + move;
-            Tile tile = world.GetTile(newHeadPosition.X, newHeadPosition.Y);
-            if (tile.IsWall)
+            Tile moveTo = _world.GetNeighbour(Head, _moveDirection);
+            if (moveTo.IsWall)
                 return;
 
-            if (tile.ContainsFood)
-                tile.ContainsFood = false;
+            if (moveTo.ContainsFood)
+                moveTo.ContainsFood = false;
             else
                 _body.Dequeue();
-            _body.Enqueue(newHeadPosition);
+            _body.Enqueue(moveTo);
+        }
+
+        internal void ChangeDirection(CardinalDirection direction)
+        {
+            Tile moveTo = _world.GetNeighbour(Head, direction);
+            if (moveTo == _body.ElementAt(1))
+                return;
+            _moveDirection = direction;
         }
     }
 }

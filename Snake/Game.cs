@@ -25,7 +25,8 @@ namespace Snake
             _world.GetRandomEmptyTile().ContainsFood = true;
             _world.GetRandomEmptyTile().ContainsFood = true;
             _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
-            _snake = new Snake();
+            _snake = new Snake(_world);
+            _snake.Place(_world.GetRandomEmptyTile());
         }
 
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)
@@ -47,7 +48,7 @@ namespace Snake
             while (ms - _lastMs > _delayMs)
             {
                 _lastMs += _delayMs;
-                _snake.Update(_world);
+                _snake.Update();
             }
         }
 
@@ -57,19 +58,19 @@ namespace Snake
             {
                 case Keys.Up:
                 case Keys.W:
-                    _snake.MoveDirection = CardinalDirection.North;
+                    _snake.ChangeDirection(CardinalDirection.North);
                     break;
                 case Keys.Left:
                 case Keys.A:
-                    _snake.MoveDirection = CardinalDirection.West;
+                    _snake.ChangeDirection(CardinalDirection.West);
                     break;
                 case Keys.Right:
                 case Keys.D:
-                    _snake.MoveDirection = CardinalDirection.East;
+                    _snake.ChangeDirection(CardinalDirection.East);
                     break;
                 case Keys.Down:
                 case Keys.S:
-                    _snake.MoveDirection = CardinalDirection.South;
+                    _snake.ChangeDirection(CardinalDirection.South);
                     break;
                 case Keys.Escape:
                     Exit();

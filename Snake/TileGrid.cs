@@ -20,10 +20,16 @@ namespace Snake
             _grid = new Tile[width, height];
             GridHelper.Foreach(_grid, (x, y) => 
             { 
-                _grid[x,y] = new Tile();
+                _grid[x,y] = new Tile(x,y);
                 if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                     _grid[x, y].IsWall = true;            
             });
+        }
+
+        internal Tile GetNeighbour(Tile tile, CardinalDirection direction)
+        {
+            Vector2 v = Compass.GetVector2(direction);
+            return GetTile(tile.X + (int)v.X, tile.Y + (int)v.Y);
         }
 
         public SizeI Size
