@@ -25,7 +25,7 @@ namespace Snake
         {
             foreach (Vector2I part in _body)
             {
-                renderer.DrawFilledRectangle(new RectangleF(part.X, part.Y, 0.9f, 0.9f), Color.Green);
+                renderer.DrawFilledRectangle(new RectangleF(part.X + 0.1f, part.Y + 0.1f, 0.8f, 0.8f), Color.Green);
             }
         }
 
@@ -49,12 +49,19 @@ namespace Snake
             }
         }
 
-        public void Update()
+        public void Update(TileGrid world)
         {
             Vector2 move = Compass.GetVector(_moveDirection);
-            Vector2I newHead = Head + move;
-            _body.Dequeue();
-            _body.Enqueue(newHead);
+            Vector2I newHeadPosition = Head + move;
+            Tile tile = world.GetTile(newHeadPosition.X, newHeadPosition.Y);
+            if (tile.IsWall)
+                return;
+
+            if (tile.ContainsFood)
+                tile.ContainsFood = false;
+            else
+                _body.Dequeue();
+            _body.Enqueue(newHeadPosition);
         }
     }
 }

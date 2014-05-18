@@ -15,23 +15,23 @@ namespace Snake
     {
         Camera2D _camera;
         Snake _snake;
-        WorldGrid _grid;
+        TileGrid _world;
 
         protected override void Initialize(XnaRenderer renderer)
         {
             renderer.SetScreenSize(1024, 768, false);
-            _grid = new WorldGrid(20,20);
-            _camera = new Camera2D(new Vector2(10, 10), new Vector2(_grid.Size.Width, _grid.Size.Height));
-
-
+            _world = new TileGrid(20,20);
+            _world.GetRandomEmptyTile().ContainsFood = true;
+            _world.GetRandomEmptyTile().ContainsFood = true;
+            _world.GetRandomEmptyTile().ContainsFood = true;
+            _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
             _snake = new Snake();
         }
 
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)
         {
             renderer.BeginDraw(_camera);
-            renderer.DrawDepth = 1f;
-            _grid.Draw(renderer);
+            _world.Draw(renderer);
             renderer.DrawDepth = 0.5f;
             renderer.Transformation = Matrix.Identity;
             _snake.Draw(renderer);
@@ -47,7 +47,7 @@ namespace Snake
             while (ms - _lastMs > _delayMs)
             {
                 _lastMs += _delayMs;
-                _snake.Update();
+                _snake.Update(_world);
             }
         }
 
