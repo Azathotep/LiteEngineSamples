@@ -49,9 +49,7 @@ namespace Snake
             while (ms - _lastMs > _delayMs)
             {
                 _lastMs += _delayMs;
-                _snake.Update();
-
-
+                _snake.Update(this);
                 if (Dice.Next(50) == 1)
                     _world.GetRandomEmptyTile().ContainsFood = true;
             }

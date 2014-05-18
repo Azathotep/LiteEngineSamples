@@ -1,6 +1,7 @@
 ﻿using LiteEngine.Math;
 using LiteEngine.Rendering;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,18 +54,25 @@ namespace Snake
             }
         }
 
-        public void Update()
+        public void Update(Game game)
         {
             Tile nextTile = _world.GetNeighbour(Head, _moveDirection);
             if (nextTile.IsWall)
+            {
+                game.GetSoundEffect(@"audio\collide").Play();
                 return;
+            }
             if (nextTile.ContainsFood)
             {
+                game.GetSoundEffect(@"audio\eat").Play();
                 nextTile.ContainsFood = false;
                 _growth++;
             }
             if (_body.Contains(nextTile))
+            {
+                game.GetSoundEffect(@"audio\collide").Play();
                 return;
+            }
             MoveTo(nextTile);
         }
 
