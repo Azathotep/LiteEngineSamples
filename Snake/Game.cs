@@ -1,4 +1,5 @@
-﻿using LiteEngine.Math;
+﻿using LiteEngine.Core;
+using LiteEngine.Math;
 using LiteEngine.Rendering;
 using LiteEngine.Xna;
 using Microsoft.Xna.Framework;
@@ -49,6 +50,10 @@ namespace Snake
             {
                 _lastMs += _delayMs;
                 _snake.Update();
+
+
+                if (Dice.Next(50) == 1)
+                    _world.GetRandomEmptyTile().ContainsFood = true;
             }
         }
 

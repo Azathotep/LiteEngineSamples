@@ -55,21 +55,34 @@ namespace Snake
 
         public void Update()
         {
-            Tile moveTo = _world.GetNeighbour(Head, _moveDirection);
-            if (moveTo.IsWall)
+            Tile nextTile = _world.GetNeighbour(Head, _moveDirection);
+            if (nextTile.IsWall)
                 return;
+            if (nextTile.ContainsFood)
+            {
+                nextTile.ContainsFood = false;
+                _growth++;
+            }
+            if (_body.Contains(nextTile))
+                return;
+            MoveTo(nextTile);
+        }
 
-            if (moveTo.ContainsFood)
-                moveTo.ContainsFood = false;
-            else
+        int _growth = 0;
+
+        void MoveTo(Tile tile)
+        {
+            if (_growth == 0)
                 _body.Dequeue();
-            _body.Enqueue(moveTo);
+            else
+                _growth--;
+            _body.Enqueue(tile);
         }
 
         internal void ChangeDirection(CardinalDirection direction)
         {
             Tile moveTo = _world.GetNeighbour(Head, direction);
-            if (moveTo == _body.ElementAt(1))
+            if (moveTo == _body.ElementAt(_body.Count - 2))
                 return;
             _moveDirection = direction;
         }
