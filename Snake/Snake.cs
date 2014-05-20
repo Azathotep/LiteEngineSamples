@@ -1,5 +1,6 @@
 ﻿using LiteEngine.Math;
 using LiteEngine.Rendering;
+using LiteEngine.Textures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using System;
@@ -12,13 +13,18 @@ namespace Snake
 {
     class Snake
     {
+        Animation _headAnimation = new Animation();
+
         CardinalDirection _moveDirection;
         Queue<Tile> _body = new Queue<Tile>();
         TileGrid _world;
 
-        public Snake(TileGrid world)
+        public Snake(Game game, TileGrid world)
         {
             _world = world;
+            _headAnimation.AddFrame(game.TextureBook.GetTexture(@"textures\snake.head"), 20);
+            _headAnimation.AddFrame(game.TextureBook.GetTexture(@"textures\snake.head_eat"), 20);
+            _headAnimation.Loop = true;
         }
 
         public void Place(Tile tile)
@@ -30,11 +36,21 @@ namespace Snake
             _body.Enqueue(tile);
         }
 
+        Texture _headTexture = new Texture(@"textures\snakehead");
+
         public void Draw(XnaRenderer renderer)
         {
             foreach (Tile part in _body)
             {
-                renderer.DrawFilledRectangle(new RectangleF(part.X + 0.1f, part.Y + 0.1f, 0.8f, 0.8f), Color.Green);
+                if (part == Head)
+                {
+                    Texture texture = _headAnimation.CurrentTexture;
+                    renderer.DrawSprite(texture, new Vector2(part.X+0.5f, part.Y+0.5f), new Vector2(1f,1f), Compass.GetAngle(MoveDirection));
+                }
+                else
+                {
+                    renderer.DrawFilledRectangle(new RectangleF(part.X + 0.1f, part.Y + 0.1f, 0.8f, 0.8f), Color.Green);
+                }
             }
         }
 
@@ -54,13 +70,15 @@ namespace Snake
             }
         }
 
-        public void Update(Game game)
+        public void Update(GameTime gameTime, Game game)
         {
+            _headAnimation.Advance(gameTime.ElapsedGameTime.Milliseconds);
+
             Tile nextTile = _world.GetNeighbour(Head, _moveDirection);
             if (nextTile.IsWall)
             {
                 //shorten snake
-                _body.Dequeue();
+                _body.Dequeue().Anim = 50;
                 game.GetSoundEffect(@"audio\collide").Play(0.5f, 1f, 0f);
                 return;
             }

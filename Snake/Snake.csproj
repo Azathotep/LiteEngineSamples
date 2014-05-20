@@ -43,6 +43,12 @@
     <Compile Include="Snake.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileGrid.cs" />
+    <Content Include="Content\Textures\snake.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\snake.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

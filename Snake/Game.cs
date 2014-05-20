@@ -21,12 +21,15 @@ namespace Snake
         protected override void Initialize(XnaRenderer renderer)
         {
             renderer.SetScreenSize(1024, 768, false);
+
+            TextureBook.AddSpriteSheetTextures(@"textures\snake");
+
             _world = new TileGrid(20,20);
             _world.GetRandomEmptyTile().ContainsFood = true;
             _world.GetRandomEmptyTile().ContainsFood = true;
             _world.GetRandomEmptyTile().ContainsFood = true;
             _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
-            _snake = new Snake(_world);
+            _snake = new Snake(this, _world);
             _snake.Place(_world.GetRandomEmptyTile());
             _world.AddFood();
         }
@@ -50,7 +53,7 @@ namespace Snake
             while (ms - _lastMs > _delayMs)
             {
                 _lastMs += _delayMs;
-                _snake.Update(this);
+                _snake.Update(gameTime, this);
                 if (Dice.Next(50) == 1)
                     _world.GetRandomEmptyTile().ContainsFood = true;
             }
