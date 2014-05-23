@@ -17,19 +17,11 @@ namespace Snake
             _position = new Vector2I(x,y);
         }
 
-        public int X
+        public Vector2I Position
         {
             get
             {
-                return _position.X;
-            }
-        }
-
-        public int Y
-        {
-            get
-            {
-                return _position.Y;
+                return _position;
             }
         }
 

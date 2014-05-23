@@ -22,8 +22,8 @@ namespace Collisions
             renderer.SetScreenSize(1200, 900, false);
             Polygon polygon = new Polygon(new Vector2[] { new Vector2(-4, 3), new Vector2(4, 3), new Vector2(0, -3) });
             _polygons.Add(polygon);
-            polygon.Position = new Vector2(3, 3.5f);
-
+            polygon.Position = new Vector2(4f, 3f);
+            polygon.Angle = 0.1f;
             polygon = new Polygon(new Vector2[] { new Vector2(-8, 3), new Vector2(8, 3), new Vector2(0, 0) });
             polygon.Position = new Vector2(7, 7);
             _polygons.Add(polygon);
@@ -223,11 +223,11 @@ namespace Collisions
         /// <param name="position">position in world coordinates</param>
         public void ApplyForce(Vector2 applicationPoint, Vector2 force)
         {
-            Game.ArrowCollection.AddArrow("fforce", applicationPoint, applicationPoint + force * 10f, Color.Green);
+            //Game.ArrowCollection.AddArrow("fforce", applicationPoint, applicationPoint + force * 10f, Color.Green);
 
             //moment arm is the line from the center of mass to the point of application of the force
             Vector2 momentArm = applicationPoint - CenterOfMass;
-            Game.ArrowCollection.AddArrow("momentumArm", CenterOfMass, CenterOfMass + momentArm, Color.Red);
+            //Game.ArrowCollection.AddArrow("momentumArm", CenterOfMass, CenterOfMass + momentArm, Color.Red);
 
 
             //calculate force parallel to the moment arm
@@ -235,12 +235,12 @@ namespace Collisions
             //calculate the force perpendicular to the moment arm
             //(force = parallelForce + perpForce)
             Vector2 perpForce = force - parallelForce;
-            Game.ArrowCollection.AddArrow("parallelForce", applicationPoint - force, applicationPoint - force + parallelForce, Color.Yellow);
-            Game.ArrowCollection.AddArrow("perpForce", applicationPoint - force, applicationPoint - force + perpForce, Color.Blue);
+            //Game.ArrowCollection.AddArrow("parallelForce", applicationPoint - force, applicationPoint - force + parallelForce, Color.Yellow);
+            //Game.ArrowCollection.AddArrow("perpForce", applicationPoint - force, applicationPoint - force + perpForce, Color.Blue);
 
             //the perpendicular force causes a torque
             Vector2 torque = perpForce * momentArm.Length();
-            Game.ArrowCollection.AddArrow("torque", applicationPoint, applicationPoint + torque, Color.Cyan);
+            //Game.ArrowCollection.AddArrow("torque", applicationPoint, applicationPoint + torque, Color.Cyan);
             //angular acceleration = torque / moment of inertia <-- skip this
 
             Vector2 angularAcceleration = torque / 1000;
@@ -289,8 +289,7 @@ namespace Collisions
                 Vector2 start = _points[i];
                 Vector2 end = _points[(i + 1) % _points.Length];
                 renderer.DrawLine(start, end, 0.1f, Color.White, 1f);
-
-                renderer.DrawArrow((start + end) * 0.5f, (start + end) * 0.5f + _normals[i] * 1f, 0.1f, Color.DarkGray, 0.6f);
+                //renderer.DrawArrow((start + end) * 0.5f, (start + end) * 0.5f + _normals[i] * 1f, 0.1f, Color.DarkGray, 0.6f);
             }
 
             renderer.Transformation = Matrix.Identity;
@@ -522,7 +521,7 @@ namespace Collisions
                 //so skip it
                 Vector2 otherNormal = Util.RotateVector(other._normals[i], other.Angle);
                 Vector2 nStart = (other.ToWorld(other._points[i]) + other.ToWorld(other._points[(i+1) % other._points.Length])) * 0.5f;
-                Game.ArrowCollection.AddArrow("" + other._points[0].X + i, nStart, nStart + otherNormal * 3f, Color.Orange);
+                //Game.ArrowCollection.AddArrow("" + other._points[0].X + i, nStart, nStart + otherNormal * 3f, Color.Orange);
 
                 if (Vector2.Dot(moveBy, otherNormal) > 0)
                     continue;
@@ -595,34 +594,45 @@ namespace Collisions
         {
             if (this == others[0])
             {
+                Velocity.Y += 0.001f;
+
                 CollisionInfo collision = TestCollideWithPolygon(Velocity, others[1]);
                 if (collision.IsCollision)
                 {
                     //the impact will either be a point of this polygon striking an edge of the other polygon
                     //or it will be a point of the other polygon striking an edge of this polygon
-
-                    Position += Velocity * collision.Fraction;
-                    Vector2 impactNormal = Vector2.Zero;
-                    if (collision.Type == CollisionType.VertexStrikesEdge)
+                    if (collision.Fraction > 0.5f)
                     {
-                        int edgeIndex = collision.IndexOfStruck;
-                        impactNormal = others[1]._normals[edgeIndex];
-                        impactNormal = Util.RotateVector(impactNormal, others[1].Angle);
+                        Position += Velocity * collision.Fraction * 0.95f;
+                        Vector2 impactNormal = Vector2.Zero;
+                        if (collision.Type == CollisionType.VertexStrikesEdge)
+                        {
+                            int edgeIndex = collision.IndexOfStruck;
+                            impactNormal = others[1]._normals[edgeIndex];
+                            impactNormal = Util.RotateVector(impactNormal, others[1].Angle);
+                        }
+                        if (collision.Type == CollisionType.EdgeStrikesVertex)
+                        {
+                            int edgeIndex = collision.IndexOfStriking;
+                            impactNormal = _normals[edgeIndex];
+                            impactNormal = Util.RotateVector(impactNormal, Angle);
+                        }
+
+                        
+                        Vector2 normalForce = -Util.Project(Velocity, impactNormal) * 1.1f;
+
+                        Velocity = Vector2.Zero;
+                        
+                        ApplyForce(collision.Impact, normalForce * 1000f);
+                        Game.ArrowCollection.AddArrow("normalForceP", collision.Impact, collision.Impact + normalForce * 2000, Color.Blue);
+                        
                     }
-                    if (collision.Type == CollisionType.EdgeStrikesVertex)
+                    else
                     {
-                        int edgeIndex = collision.IndexOfStriking;
-                        impactNormal = _normals[edgeIndex];
-                        impactNormal = Util.RotateVector(impactNormal, Angle);
+                        Velocity = Vector2.Zero;
                     }
-
-                    //Velocity = Vector2.Zero;
-
-                    Vector2 normalForce = -Util.Project(Velocity, impactNormal) * 1.1f;
-                    ApplyForce(collision.Impact, normalForce * 1000f);
-                    Game.ArrowCollection.AddArrow("normalForce", collision.Impact, collision.Impact + normalForce * 20, Color.LightCoral);
                 }
-                Velocity.Y += 0.001f;
+                
             }
             Position += Velocity;
 
@@ -631,30 +641,40 @@ namespace Collisions
                 CollisionInfo collision = TestCollideWithPolygon(AngularVelocity, others[1]);
                 if (collision.IsCollision)
                 {
-                    Angle += AngularVelocity * collision.Fraction;
-
-
-                    Vector2 impactNormal = Vector2.Zero;
-                    if (collision.Type == CollisionType.VertexStrikesEdge)
+                    if (collision.Fraction < 0.5f)
                     {
-                        int edgeIndex = collision.IndexOfStruck;
-                        impactNormal = others[1]._normals[edgeIndex];
-                        impactNormal = Util.RotateVector(impactNormal, others[1].Angle);
+                        AngularVelocity = 0;
                     }
-                    if (collision.Type == CollisionType.EdgeStrikesVertex)
+                    else
                     {
-                        int edgeIndex = collision.IndexOfStriking;
-                        impactNormal = _normals[edgeIndex];
-                        impactNormal = Util.RotateVector(impactNormal, Angle);
+
+                        Angle += AngularVelocity * collision.Fraction * 0.9f;
+
+                        Vector2 impactNormal = Vector2.Zero;
+                        if (collision.Type == CollisionType.VertexStrikesEdge)
+                        {
+                            int edgeIndex = collision.IndexOfStruck;
+                            impactNormal = others[1]._normals[edgeIndex];
+                            impactNormal = Util.RotateVector(impactNormal, others[1].Angle);
+                        }
+                        if (collision.Type == CollisionType.EdgeStrikesVertex)
+                        {
+                            int edgeIndex = collision.IndexOfStriking;
+                            impactNormal = _normals[edgeIndex];
+                            impactNormal = Util.RotateVector(impactNormal, Angle);
+                        }
+                        Vector2 normalForce = impactNormal * Math.Abs(AngularVelocity) * 1.5f; // -Util.Project(Velocity, impactNormal) * 1.1f;
+                        AngularVelocity = 0;
+                        ApplyForce(collision.Impact, normalForce * 1000f);
+                        Game.ArrowCollection.AddArrow("normalForce", collision.Impact, collision.Impact + normalForce * 2000, Color.Yellow);
                     }
-                    Vector2 normalForce = impactNormal * Math.Abs(AngularVelocity) * 1.5f; // -Util.Project(Velocity, impactNormal) * 1.1f;
-                    AngularVelocity = 0;
-                    ApplyForce(collision.Impact, normalForce * 1000f);
-                    Game.ArrowCollection.AddArrow("normalForce", collision.Impact, collision.Impact + normalForce * 20, Color.LightCoral);
                 }
             }
 
             Angle += AngularVelocity;
+
+
+
 
             //create movement hull
             //foreach point in polygon

@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <main size="32">
-  <image name="head" x="1" y="1" />
-  <image name="head_eat" x="35" y="1" />
+  <image name="bodyNE" x="1" y="1" />
+  <image name="bodyNS" x="35" y="1" />
+  <image name="head" x="69" y="1" />
+  <image name="head_eat" x="1" y="35" />
+  <image name="tail" x="35" y="35" />
 </main>

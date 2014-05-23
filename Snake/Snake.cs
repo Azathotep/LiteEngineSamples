@@ -18,13 +18,18 @@ namespace Snake
         CardinalDirection _moveDirection;
         Queue<Tile> _body = new Queue<Tile>();
         TileGrid _world;
-
+        Texture _bodyNsTexture;
+        Texture _bodyNeTexture;
+        Texture _tailTexture;
         public Snake(Game game, TileGrid world)
         {
             _world = world;
             _headAnimation.AddFrame(game.TextureBook.GetTexture(@"textures\snake.head"), 20);
             _headAnimation.AddFrame(game.TextureBook.GetTexture(@"textures\snake.head_eat"), 20);
             _headAnimation.Loop = true;
+            _bodyNsTexture = game.TextureBook.GetTexture(@"textures\snake.bodyNS");
+            _bodyNeTexture = game.TextureBook.GetTexture(@"textures\snake.bodyNE");
+            _tailTexture = game.TextureBook.GetTexture(@"textures\snake.tail");
         }
 
         public void Place(Tile tile)
@@ -40,17 +45,51 @@ namespace Snake
 
         public void Draw(XnaRenderer renderer)
         {
-            foreach (Tile part in _body)
+            Tile[] parts = _body.ToArray();
+            for (int i = 0; i < parts.Length; i++)
             {
-                if (part == Head)
+                Texture texture;
+                float angle = 0;
+                Tile part = parts[i];
+                if (i == parts.Length - 1)
                 {
-                    Texture texture = _headAnimation.CurrentTexture;
-                    renderer.DrawSprite(texture, new Vector2(part.X+0.5f, part.Y+0.5f), new Vector2(1f,1f), Compass.GetAngle(MoveDirection));
+                    texture = _headAnimation.CurrentTexture;
+                    angle = Compass.GetAngle(MoveDirection);
+                }
+                else if (i == 0)
+                {
+                    texture = _tailTexture;
+                    CardinalDirection directionOfLast = Compass.GetDirection(parts[i + 1].Position - parts[i].Position);
+                    angle = Compass.GetAngle(directionOfLast);
                 }
                 else
                 {
-                    renderer.DrawFilledRectangle(new RectangleF(part.X + 0.1f, part.Y + 0.1f, 0.8f, 0.8f), Color.Green);
+                    CardinalDirection directionOfNext = Compass.GetDirection(parts[i - 1].Position - parts[i].Position);
+                    CardinalDirection directionOfLast = Compass.GetDirection(parts[i + 1].Position - parts[i].Position);
+                    if (Compass.GetOppositeDirection(directionOfLast) == directionOfNext)
+                    {
+                        texture = _bodyNsTexture;
+                        if (directionOfNext == CardinalDirection.East || directionOfNext == CardinalDirection.West)
+                            angle = MathHelper.PiOver2;
+                    }
+                    else
+                    {
+                        texture = _bodyNeTexture;
+                        if (directionOfLast == CardinalDirection.North && directionOfNext == CardinalDirection.West)
+                            angle = MathHelper.PiOver2 * 3;
+                        if (directionOfLast == CardinalDirection.East && directionOfNext == CardinalDirection.South)
+                            angle = MathHelper.PiOver2;
+                        if (directionOfLast == CardinalDirection.South && directionOfNext == CardinalDirection.East)
+                            angle = MathHelper.PiOver2;
+                        if (directionOfLast == CardinalDirection.South && directionOfNext == CardinalDirection.West)
+                            angle = MathHelper.Pi;
+                        if (directionOfLast == CardinalDirection.West && directionOfNext == CardinalDirection.South)
+                            angle = MathHelper.Pi;
+                        if (directionOfLast == CardinalDirection.West && directionOfNext == CardinalDirection.North)
+                            angle = MathHelper.PiOver2 * 3;
+                    }
                 }
+                renderer.DrawSprite(texture, new Vector2(part.Position.X+0.5f, part.Position.Y+0.5f), new Vector2(1f,1f), angle, Color.Green, 1f);
             }
         }
 

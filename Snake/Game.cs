@@ -30,7 +30,7 @@ namespace Snake
             _world.GetRandomEmptyTile().ContainsFood = true;
             _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
             _snake = new Snake(this, _world);
-            _snake.Place(_world.GetRandomEmptyTile());
+            _snake.Place(_world.GetTile(10,10));
             _world.AddFood();
         }
 
