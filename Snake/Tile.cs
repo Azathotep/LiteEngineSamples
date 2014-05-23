@@ -25,6 +25,15 @@ namespace Snake
             }
         }
 
+        int _strength = 0;
+        public int Strength
+        {
+            get
+            {
+                return _strength;
+            }
+        }
+
         public int Anim;
 
         public void Draw(XnaRenderer renderer)
@@ -32,7 +41,11 @@ namespace Snake
             renderer.DrawDepth = 1f;
             Color tileColor = Color.White;
             if (IsWall)
+            {
                 tileColor = Color.SlateGray;
+                if (_strength == 1)
+                    tileColor = Color.LightBlue;
+            }
             renderer.DrawFilledRectangle(new RectangleF(-0.45f, -0.45f, 0.9f, 0.9f), tileColor);
             renderer.DrawDepth = 0.8f;
             if (ContainsFood)
@@ -46,7 +59,31 @@ namespace Snake
             }
         }
 
-        public bool IsWall;
+        public void AddImpenetrableWall()
+        {
+            _strength = 9;
+        }
+
+        public void AddWall(int strength)
+        {
+            _strength = strength;
+        }
+
+        public bool IsWall
+        {
+            get
+            {
+                return _strength > 0;
+            }
+        }
+
+        public bool IsImpenetrable
+        {
+            get
+            {
+                return _strength >=9;
+            }
+        }
 
         public bool ContainsFood;
 
@@ -59,6 +96,18 @@ namespace Snake
                 if (ContainsFood)
                     return false;
                 return true;
+            }
+        }
+
+        internal void TakeDamage(int damage)
+        {
+            if (IsImpenetrable)
+                return;
+            _strength -= damage;
+            if (_strength <= 0)
+            {
+                Anim = 50;
+                _strength = 0;
             }
         }
     }

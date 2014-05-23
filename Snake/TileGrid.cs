@@ -22,8 +22,11 @@ namespace Snake
             { 
                 _grid[x,y] = new Tile(x,y);
                 if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
-                    _grid[x, y].IsWall = true;            
+                    _grid[x, y].AddImpenetrableWall();
             });
+
+            for (int i=0;i<10;i++)
+                GetRandomEmptyTile().AddWall(1);
         }
 
         internal Tile GetNeighbour(Tile tile, CardinalDirection direction)

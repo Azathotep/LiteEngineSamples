@@ -48,7 +48,15 @@ namespace Snake
             while (ms - _lastMs > _delayMs)
             {
                 _lastMs += _delayMs;
-                _snake.Update(gameTime, this);
+
+                if (_snake.Length > 0)
+                {
+                    if (_snake.Length < 3)
+                        _snake.ChopBody(this, _snake.Head);
+                    else
+                        _snake.Update(gameTime, this);
+                }
+
                 if (Dice.Next(50) == 1)
                     _world.GetRandomEmptyTile().ContainsFood = true;
             }
