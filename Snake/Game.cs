@@ -21,17 +21,12 @@ namespace Snake
         protected override void Initialize(XnaRenderer renderer)
         {
             renderer.SetScreenSize(1024, 768, false);
-
             TextureBook.AddSpriteSheetTextures(@"textures\snake");
-
             _world = new TileGrid(20,20);
-            _world.GetRandomEmptyTile().ContainsFood = true;
-            _world.GetRandomEmptyTile().ContainsFood = true;
             _world.GetRandomEmptyTile().ContainsFood = true;
             _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
             _snake = new Snake(this, _world);
             _snake.Place(_world.GetTile(10,10));
-            _world.AddFood();
         }
 
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)

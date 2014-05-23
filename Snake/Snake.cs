@@ -101,6 +101,14 @@ namespace Snake
             }
         }
 
+        Tile Tail
+        {
+            get
+            {
+                return _body.Peek();
+            }
+        }
+        
         public CardinalDirection MoveDirection
         {
             get
@@ -116,9 +124,14 @@ namespace Snake
             Tile nextTile = _world.GetNeighbour(Head, _moveDirection);
             if (nextTile.IsWall)
             {
-                //shorten snake
-                _body.Dequeue().Anim = 50;
-                game.GetSoundEffect(@"audio\collide").Play(0.5f, 1f, 0f);
+                //hit a wall
+                ChopBody(game, Tail);
+                return;
+            }
+            if (_body.Contains(nextTile))
+            {
+                //hit self
+                ChopBody(game, nextTile);
                 return;
             }
             if (nextTile.ContainsFood)
@@ -127,21 +140,22 @@ namespace Snake
                 nextTile.ContainsFood = false;
                 _growth++;
             }
-            if (_body.Contains(nextTile))
-            {
-                game.GetSoundEffect(@"audio\collide").Play(0.5f, 1f, 0f);
-
-                //cut off tail
-                while (true)
-                {
-                    Tile tail = _body.Dequeue();
-                    tail.Anim = 50;
-                    if (tail == nextTile)
-                        break;
-                }
-                return;
-            }
             MoveTo(nextTile);
+        }
+
+        /// <summary>
+        /// Chops the body by removing all parts from the specified part down
+        /// </summary>
+        void ChopBody(Game game, Tile part)
+        {
+            game.GetSoundEffect(@"audio\collide").Play(0.5f, 1f, 0f);
+            while (true)
+            {
+                Tile tail = _body.Dequeue();
+                tail.Anim = 50;
+                if (tail == part)
+                    break;
+            }
         }
 
         int _growth = 0;
