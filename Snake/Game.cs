@@ -1,6 +1,8 @@
 ﻿using LiteEngine.Core;
 using LiteEngine.Math;
 using LiteEngine.Rendering;
+using LiteEngine.Textures;
+using LiteEngine.UI;
 using LiteEngine.Xna;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -14,29 +16,48 @@ namespace Snake
 {
     class Game : LiteXnaEngine
     {
+        Camera2D _screenCamera = new Camera2D(new Vector2(0, 0), new Vector2(800, 600));
         Camera2D _camera;
         Snake _snake;
         TileGrid _world;
+        TextBox _txtBox;
 
         protected override void Initialize(XnaRenderer renderer)
         {
-            renderer.SetScreenSize(1024, 768, false);
+            renderer.SetResolution(1024, 768, false);
             TextureBook.AddSpriteSheetTextures(@"textures\snake");
             _world = new TileGrid(20,20);
             _world.GetRandomEmptyTile().ContainsFood = true;
             _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
             _snake = new Snake(this, _world);
             _snake.Place(_world.GetTile(10,10));
+            _txtBox = new TextBox();
+            _txtBox.Text = "5";
+            _txtBox.TextScale = 5;
+            _txtBox.AutoSize = true;
+            _txtBox.TextColor = Color.Black;
+            _txtBox.Position = new Vector2(0, 0);
+            UserInterface.SetResolution(600, 480);
+            this.UserInterface.AddChild(_txtBox);
         }
 
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)
         {
             renderer.BeginDraw(_camera);
+
+            renderer.DrawDepth = 0.9f;
             _world.Draw(renderer);
             renderer.DrawDepth = 0.5f;
             renderer.Transformation = Matrix.Identity;
             _snake.Draw(renderer);
+
+            
             renderer.EndDraw();
+            
+            
+            //renderer.BeginDraw(_screenCamera);
+            //renderer.DrawString("5", new Vector2(0, 0), Color.Black, 10);
+            //renderer.EndDraw();
         }
 
         int _lastMs;
@@ -57,7 +78,7 @@ namespace Snake
                         _snake.Update(gameTime, this);
                 }
 
-                if (Dice.Next(50) == 1)
+                if (Dice.Next(10) == 1)
                     _world.GetRandomEmptyTile().ContainsFood = true;
             }
         }

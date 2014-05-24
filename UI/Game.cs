@@ -19,6 +19,7 @@ namespace Text
         protected override void Initialize(XnaRenderer renderer)
         {
             renderer.SetResolution(800, 600, false);
+            UserInterface.ShowMouseCursor = true;
             _textBox = new TextBox();
             _textBox.Text = "This textbox is docked in the center of the screen";
             _textBox.AutoSize = true;

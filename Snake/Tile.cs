@@ -45,6 +45,8 @@ namespace Snake
                 tileColor = Color.SlateGray;
                 if (_strength == 1)
                     tileColor = Color.LightBlue;
+                if (_strength == 2)
+                    tileColor = Color.DarkBlue;
             }
             renderer.DrawFilledRectangle(new RectangleF(-0.45f, -0.45f, 0.9f, 0.9f), tileColor);
             renderer.DrawDepth = 0.8f;
