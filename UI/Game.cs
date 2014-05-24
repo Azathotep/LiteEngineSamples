@@ -1,4 +1,5 @@
-﻿using LiteEngine.Math;
+﻿using LiteEngine.Input;
+using LiteEngine.Math;
 using LiteEngine.Rendering;
 using LiteEngine.Textures;
 using LiteEngine.UI;
@@ -27,7 +28,6 @@ namespace Text
             _textBox.BorderWidth = 2;
             _textBox.Dock = DockPosition.Center;
             UserInterface.AddChild(_textBox);
-
 
             TextBox topText = CreateTextBox();
             topText.Text = "This textbox is docked at the top of the screen";
@@ -77,12 +77,31 @@ namespace Text
             bottomLeft.Dock = DockPosition.BottomLeft;
             UserInterface.AddChild(bottomLeft);
 
+            Button button = new Button();
+            button.Bounds = new RectangleF(200, 150, 150, 100);
+            button.OnClick = () =>
+            {
+                topText.Text += "!";
+            };
+            UserInterface.AddChild(button);
+
+            TextBox buttonText = new TextBox();
+            buttonText.Dock = DockPosition.Center;
+            buttonText.Text = "This textbox is in a button";
+            buttonText.AutoSize = true;
+            button.AddChild(buttonText);
+            
             //ImageControl image = new ImageControl(new Texture("point"));
             //image.Size = new SizeF(300, 300);
             //image.Dock = DockPosition.Center;
             //image.BackgroundColor = Color.PaleGreen;
             //image.BorderWidth = 3f;
             //UserInterface.AddChild(image);
+        }
+
+        protected override void OnMouseClick(MouseButton button, Vector2 mousePosition)
+        {
+            
         }
 
         TextBox CreateTextBox()
