@@ -20,23 +20,81 @@ namespace Text
         {
             renderer.SetResolution(800, 600, false);
             _textBox = new TextBox();
-            _textBox.Position = new Vector2(0, 0);
-            _textBox.Text = "This is some text for the textbox";
-            _textBox.TextColor = Color.White;
-            _textBox.TextScale = 1f;
+            _textBox.Text = "This textbox is docked in the center of the screen";
             _textBox.AutoSize = true;
-            _textBox.BorderWidth = 2f;
+            _textBox.BackgroundColor = Color.Azure;
+            _textBox.BorderWidth = 2;
             _textBox.Dock = DockPosition.Center;
             UserInterface.AddChild(_textBox);
 
-            ImageControl image = new ImageControl(new Texture("point"));
-            image.Size = new SizeF(300, 300);
-            image.Dock = DockPosition.Center;
-            UserInterface.AddChild(image);
+
+            TextBox topText = CreateTextBox();
+            topText.Text = "This textbox is docked at the top of the screen";
+            topText.Dock = DockPosition.Top;
+            topText.AutoSize = true;
+            UserInterface.AddChild(topText);
+
+            TextBox rightText = CreateTextBox();
+            rightText.Text = "This textbox is docked at the right of the screen";
+            rightText.Dock = DockPosition.Right;
+            rightText.Size = new SizeF(100, 0);
+            UserInterface.AddChild(rightText);
+
+            TextBox leftText = CreateTextBox();
+            leftText.Text = "This textbox is docked at the left of the screen";
+            leftText.Dock = DockPosition.Left;
+            leftText.Size = new SizeF(100, 0);
+            UserInterface.AddChild(leftText);
+
+            TextBox bottomText = CreateTextBox();
+            bottomText.Text = "This textbox is docked at the bottom of the screen";
+            bottomText.Dock = DockPosition.Bottom;
+            bottomText.AutoSize = true;
+            UserInterface.AddChild(bottomText);
+
+            TextBox topLeft = CreateTextBox();
+            topLeft.Text = "This textbox is docked at the top left of the screen";
+            topLeft.Size = new SizeF(150, 0);
+            topLeft.Dock = DockPosition.TopLeft;
+            UserInterface.AddChild(topLeft);
+
+            TextBox topRight = CreateTextBox();
+            topRight.Text = "This textbox is docked at the top right of the screen";
+            topRight.Size = new SizeF(150, 0);
+            topRight.Dock = DockPosition.TopRight;
+            UserInterface.AddChild(topRight);
+
+            TextBox bottomRight = CreateTextBox();
+            bottomRight.Text = "This textbox is docked at the bottom right of the screen";
+            bottomRight.Size = new SizeF(150, 0);
+            bottomRight.Dock = DockPosition.BottomRight;
+            UserInterface.AddChild(bottomRight);
+
+            TextBox bottomLeft = CreateTextBox();
+            bottomLeft.Text = "This textbox is docked at the bottom left of the screen";
+            bottomLeft.Size = new SizeF(150, 0);
+            bottomLeft.Dock = DockPosition.BottomLeft;
+            UserInterface.AddChild(bottomLeft);
+
+            //ImageControl image = new ImageControl(new Texture("point"));
+            //image.Size = new SizeF(300, 300);
+            //image.Dock = DockPosition.Center;
+            //image.BackgroundColor = Color.PaleGreen;
+            //image.BorderWidth = 3f;
+            //UserInterface.AddChild(image);
+        }
+
+        TextBox CreateTextBox()
+        {
+            TextBox ret = new TextBox();
+            ret.BackgroundColor = Color.Azure;
+            ret.BorderWidth = 2;
+            return ret;
         }
 
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)
         {
+            renderer.Clear(Color.White);
         }
 
         protected override void UpdateFrame(GameTime gameTime)
