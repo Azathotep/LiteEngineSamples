@@ -19,7 +19,7 @@ namespace Lines
         protected override void Initialize(XnaRenderer renderer)
         {
             _camera = new Camera2D(new Vector2(0, 0), new Vector2(80, 60));
-            renderer.SetScreenSize(800, 600, false);
+            renderer.SetResolution(800, 600, false);
         }
 
         float _lineLength = 5f;

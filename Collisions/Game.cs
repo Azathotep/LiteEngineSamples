@@ -19,7 +19,7 @@ namespace Collisions
         protected override void Initialize(XnaRenderer renderer)
         {
             _camera = new Camera2D(new Vector2(0, 0), new Vector2(80, 60));
-            renderer.SetScreenSize(1200, 900, false);
+            renderer.SetResolution(1200, 900, false);
             Polygon polygon = new Polygon(new Vector2[] { new Vector2(-4, 3), new Vector2(4, 3), new Vector2(0, -3) });
             _polygons.Add(polygon);
             polygon.Position = new Vector2(4f, 3f);

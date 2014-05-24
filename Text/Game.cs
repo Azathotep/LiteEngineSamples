@@ -20,16 +20,15 @@ namespace Text
         {
             _camera = new Camera2D(new Vector2(100, 100), new Vector2(50, 80));
             //renderer.SetScreenSize(1024, 796, false);
-            
-            renderer.SetScreenSize(600, 480, false);
+            renderer.SetResolution(600, 480, false);
             _textBox = new TextBox();
             _textBox.Position = new Vector2(50, 50);
             _textBox.Text = "This is some text for the textbox";
             _textBox.TextColor = Color.White;
             _textBox.TextScale = 2f;
-            _textBox.Size = new Vector2(50, 10);
+            _textBox.Size = new SizeF(50, 10);
             _textBox.BorderWidth = 2f;
-            UIManager.AddControl(_textBox);
+            UserInterface.AddChild(_textBox);
         }
 
         float _angle;
@@ -55,12 +54,12 @@ namespace Text
                 Exit();
             if (key == Keys.N)
             {
-                _textBox.Size = new Vector2(_textBox.Size.X - 5f, _textBox.Size.Y);
+                _textBox.Size = new SizeF(_textBox.Size.Width - 5f, _textBox.Size.Height);
                 return 0;
             }
             if (key == Keys.M)
             {
-                _textBox.Size = new Vector2(_textBox.Size.X + 5f, _textBox.Size.Y);
+                _textBox.Size = new SizeF(_textBox.Size.Width + 5f, _textBox.Size.Height);
                 return 0;
             }
             if (key == Keys.D1)
@@ -87,22 +86,22 @@ namespace Text
 
             if (key == Keys.D7)
             {
-                Renderer.SetScreenSize(640, 480, true);
+                Renderer.SetResolution(640, 480, true);
                 return -1;
             }
             if (key == Keys.D8)
             {
-                Renderer.SetScreenSize(800, 600, true);
+                Renderer.SetResolution(800, 600, true);
                 return -1;
             }
             if (key == Keys.D9)
             {
-                Renderer.SetScreenSize(1200, 1000, true);
+                Renderer.SetResolution(1200, 1000, true);
                 return -1;
             }
             if (key == Keys.D0)
             {
-                Renderer.SetScreenSize(1600, 1200, true);
+                Renderer.SetResolution(1600, 1200, true);
                 return -1;
             }
             if (key == Keys.Space)

@@ -21,7 +21,7 @@ namespace FireFlies
         protected override void Initialize(XnaRenderer renderer)
         {
             _camera = new Camera2D(new Vector2(0, 0), new Vector2(50, 50));
-            renderer.SetScreenSize(1024, 768, false);
+            renderer.SetResolution(1024, 768, false);
         }
         
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)
