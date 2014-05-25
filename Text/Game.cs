@@ -23,10 +23,10 @@ namespace Text
             renderer.SetResolution(600, 480, false);
             _textBox = new TextBox();
             _textBox.Position = new Vector2(50, 50);
+            _textBox.TextScale = 10f;
             _textBox.Text = "This is some text for the textbox";
             _textBox.TextColor = Color.White;
-            _textBox.TextScale = 2f;
-            _textBox.Size = new SizeF(50, 10);
+            
             _textBox.BorderWidth = 2f;
             UserInterface.AddChild(_textBox);
         }

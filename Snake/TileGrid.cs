@@ -27,6 +27,9 @@ namespace Snake
 
             for (int i=0;i<10;i++)
                 GetRandomEmptyTile().AddWall(1);
+
+            for (int i = 0; i < 3; i++)
+                GetRandomEmptyTile().AddWall(2);
         }
 
         internal Tile GetNeighbour(Tile tile, CardinalDirection direction)
