@@ -24,12 +24,12 @@ namespace Snake
         public Snake(Game game, TileGrid world)
         {
             _world = world;
-            _headAnimation.AddFrame(game.TextureBook.GetTexture(@"textures\snake.head"), 20);
-            _headAnimation.AddFrame(game.TextureBook.GetTexture(@"textures\snake.head_eat"), 20);
+            _headAnimation.AddFrame(TextureBook.GetTexture(@"textures\snake.head"), 20);
+            _headAnimation.AddFrame(TextureBook.GetTexture(@"textures\snake.head_eat"), 20);
             _headAnimation.Loop = true;
-            _bodyNsTexture = game.TextureBook.GetTexture(@"textures\snake.bodyNS");
-            _bodyNeTexture = game.TextureBook.GetTexture(@"textures\snake.bodyNE");
-            _tailTexture = game.TextureBook.GetTexture(@"textures\snake.tail");
+            _bodyNsTexture = TextureBook.GetTexture(@"textures\snake.bodyNS");
+            _bodyNeTexture = TextureBook.GetTexture(@"textures\snake.bodyNE");
+            _tailTexture = TextureBook.GetTexture(@"textures\snake.tail");
         }
 
         public void Place(Tile tile)

@@ -25,7 +25,7 @@ namespace Snake
         protected override void Initialize(XnaRenderer renderer)
         {
             renderer.SetResolution(1024, 768, false);
-            TextureBook.AddSpriteSheetTextures(@"textures\snake");
+            TextureBook.AddSpriteSheet(@"textures\snake");
             _world = new TileGrid(20,20);
             _world.GetRandomEmptyTile().ContainsFood = true;
             _camera = new Camera2D(new Vector2(_world.Size.Width / 2, _world.Size.Height / 2), new Vector2(_world.Size.Width, _world.Size.Height));
