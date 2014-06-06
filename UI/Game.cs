@@ -16,10 +16,14 @@ namespace Text
 {
     class Game : LiteXnaEngine
     {
+        SimpleDialog _simpleDialog = new SimpleDialog();
+
         TextBox _textBox;
         protected override void Initialize(XnaRenderer renderer)
         {
             renderer.SetResolution(800, 600, false);
+            UserInterface.SetResolution(800, 600);
+
             UserInterface.ShowMouseCursor = true;
             _textBox = new TextBox();
             _textBox.Text = "This textbox is docked in the center of the screen";
@@ -81,15 +85,13 @@ namespace Text
             button.Bounds = new RectangleF(200, 150, 150, 100);
             button.OnClick = () =>
             {
+                UserInterface.ShowDialog(new SimpleDialog());
+
                 topText.Text += "!";
             };
+            button.Text = "This is a button";
             UserInterface.AddChild(button);
 
-            TextBox buttonText = new TextBox();
-            buttonText.Dock = DockPosition.Center;
-            buttonText.Text = "This textbox is in a button";
-            buttonText.AutoSize = true;
-            button.AddChild(buttonText);
             
             //ImageControl image = new ImageControl(new Texture("point"));
             //image.Size = new SizeF(300, 300);
@@ -97,6 +99,32 @@ namespace Text
             //image.BackgroundColor = Color.PaleGreen;
             //image.BorderWidth = 3f;
             //UserInterface.AddChild(image);
+        }
+
+        class SimpleDialog : Dialog
+        {
+            public SimpleDialog()
+            {
+                Size = new SizeF(200, 200);
+                BorderWidth = 2f;
+
+                Button okButton = new Button();
+                okButton.Size = new SizeF(100, 50);
+                okButton.Dock = DockPosition.Bottom;
+                okButton.Text = "Close";
+                okButton.OnClick = new Action(() =>
+                    {
+                        Close();
+                    });
+                AddChild(okButton);
+            }
+
+            public override KeyPressResult ProcessKey(UserInterface manager, Keys key)
+            {
+                if (key == Keys.Enter)
+                    Close();
+                return base.ProcessKey(manager, key);
+            }
         }
 
         protected override void OnMouseClick(MouseButton button, Vector2 mousePosition)
