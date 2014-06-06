@@ -34,7 +34,7 @@ namespace Snake
 
         internal Tile GetNeighbour(Tile tile, CardinalDirection direction)
         {
-            Vector2 v = Compass.GetVector2(direction);
+            Vector2 v = Compass.DirectionToVector2(direction);
             return GetTile(tile.Position.X + (int)v.X, tile.Position.Y + (int)v.Y);
         }
 

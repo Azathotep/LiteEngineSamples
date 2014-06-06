@@ -21,8 +21,8 @@ namespace Text
 
         protected override void Initialize(XnaRenderer renderer)
         {
-            _camera = new Camera2D(new Vector2(0, 0), new Vector2(10, 10));
-            renderer.SetResolution(1000, 800, false);
+            _camera = new Camera2D(new Vector2(50, 50), new Vector2(100, 100));
+            renderer.SetResolution(800, 600, false);
 
 
             _vertexData[0].Position = new Vector3(0, 0, 0);
@@ -65,26 +65,62 @@ namespace Text
 
             //renderer.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertexData, 0, 4, _indexData, 0, 2, VertexPositionColorTexture.VertexDeclaration);
 
-
             renderer.BeginDraw(_camera);
+            LiteEngine.Textures.Texture solidTexture = new LiteEngine.Textures.Texture("solid");
 
-            renderer.DrawSprite(new LiteEngine.Textures.Texture("solid"), new RectangleF(0, 0, 1, 1), Color.White);
-            renderer.DrawSprite(new LiteEngine.Textures.Texture("solid"), new RectangleF(1, 0, 1, 1), Color.Red);
+            renderer.DrawDepth = 0.9f;
+            DrawTiles(renderer);
 
-            renderer.DrawSprite(new LiteEngine.Textures.Texture("point", new RectangleI(0,0,32,32)), new Vector2(2.5f, 0.5f), new Vector2(1,1), _angle, Color.Blue, 1f);
+
+            renderer.DrawDepth = 0.7f;
+            //this sprite will rotate around it's top corner (20,20)
+            renderer.DrawSprite(solidTexture, new RectangleF(20, 20, 20, 2f), Color.Red, _angle);
+
+            //this sprite will rotate around it's center placed at (30,30)
+            renderer.DrawSprite(solidTexture, new Vector2(30, 30), new Vector2(20, 2), _angle);
+
+            //this sprite will rotate around it's center placed at (70,20)
+            renderer.DrawSprite(solidTexture, new RectangleF(70, 20, 20, 2f), renderer.DrawDepth, _angle, new Vector2(0.5f,0.5f), Color.Red);
+
+            renderer.DrawPoint(new Vector2(0, 0), 1f, Color.White, 1f);
+
 
 
             //renderer.DrawSprite(new LiteEngine.Textures.Texture("point"), new RectangleF(2, 0, 1, 1), 0.5f, _angle, new Vector2(0.5f,0.5f), Color.Blue);
 
             //renderer.DrawSprite(new LiteEngine.Textures.Texture("point", new RectangleI(0, 0, 32, 32)), new RectangleF(2, 0, 1, 1), 0.5f, _angle, new Vector2(0.5f, 0.5f), Color.Blue);
 
-            renderer.DrawSprite(new LiteEngine.Textures.Texture("solid"), new Corners(new Vector2(0, 0), new Vector2(3, 0), new Vector2(0.5f, 2), new Vector2(2.5f, 2)), 0.5f, _angle, new Vector2(0f, 0f), Color.Red);
+            //draw non-rectangular sprite centered and rotating around (50,50)
+            DrawNonRectangular(renderer, new Vector2(50,50), new Vector2(0.5f,0.5f));
 
+            //draw non-rectangular sprite rotating around its bottom right corner at (70,70)
+            DrawNonRectangular(renderer, new Vector2(70, 70), new Vector2(1f, 1f));
 
-            renderer.DrawSprite(new LiteEngine.Textures.Texture("zombie"), new Corners(new Vector2(0, 0), new Vector2(3, 0), new Vector2(0.5f, 2), new Vector2(2.5f, 2)), 0.1f, _angle, new Vector2(0f,0f), Color.Red);
-            //_angle += 0.01f;
+            //draw a non rectangular texture 
+            _angle += 0.01f;
             renderer.EndDraw();
+        }
 
+        void DrawTiles(XnaRenderer renderer)
+        {
+            LiteEngine.Textures.Texture solidTexture = new LiteEngine.Textures.Texture("solid");
+            for (int y=0;y<10;y++)
+                for (int x = 0; x < 10; x++)
+                {
+                    Color color = Color.BlanchedAlmond;
+                    if ((x + y) % 2 == 0)
+                        color = Color.PaleTurquoise;
+                    renderer.DrawSprite(solidTexture, new RectangleF(x * 10f, y * 10f, 10f, 10f), color);
+                }
+        }
+
+        void DrawNonRectangular(XnaRenderer renderer, Vector2 position, Vector2 origin)
+        {
+            renderer.DrawOffset = position;
+            renderer.DrawDepth = 0.7f;
+            renderer.DrawSprite(new LiteEngine.Textures.Texture("solid"), new Corners(new Vector2(0, 0), new Vector2(15, 0), new Vector2(2.5f, 10), new Vector2(12.5f, 10)), _angle, origin, Color.Red);
+            renderer.DrawDepth = 0.5f;
+            renderer.DrawSprite(new LiteEngine.Textures.Texture("zombie"), new Corners(new Vector2(0, 0), new Vector2(15, 0), new Vector2(2.5f, 10), new Vector2(12.5f, 10)), _angle, origin, Color.Red);
         }
 
         protected override void UpdateFrame(GameTime gameTime)

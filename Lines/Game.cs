@@ -22,7 +22,7 @@ namespace Lines
             renderer.SetResolution(800, 600, false);
         }
 
-        float _lineLength = 5f;
+        float _lineLength = 20f;
         float _angle;
         protected override void DrawFrame(GameTime gameTime, XnaRenderer renderer)
         {
@@ -31,18 +31,16 @@ namespace Lines
             Vector2 end = start + Util.AngleToVector(_angle) * _lineLength;
             renderer.BeginDraw(_camera);
 
-            renderer.DrawLine(start, end, 0.5f, Color.Black, 1f);
-
-            renderer.DrawArrow(start, -end, 0.5f, Color.Black, 1f);
-
             renderer.DrawPoint(start, 3f, Color.Green, 1f);
             renderer.DrawPoint(end, 3f, Color.Red, 1f);
+            renderer.DrawArrow(start, end, 0.5f, Color.Black, 1f);
+
             renderer.EndDraw();
         }
 
         protected override void UpdateFrame(GameTime gameTime)
         {
-            _angle += 0.05f;
+            _angle += 0.02f;
         }
 
         protected override int OnKeyPress(Keys key, GameTime gameTime)
