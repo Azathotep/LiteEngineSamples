@@ -92,7 +92,6 @@ namespace Text
             button.Text = "This is a button";
             UserInterface.AddChild(button);
 
-            
             //ImageControl image = new ImageControl(new Texture("point"));
             //image.Size = new SizeF(300, 300);
             //image.Dock = DockPosition.Center;

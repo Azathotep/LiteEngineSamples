@@ -1,0 +1,1 @@
+%builderdir%\SpriteSheetBuilder.exe Spritesheet1 .

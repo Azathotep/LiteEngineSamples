@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<main size="32">
+  <image name="blank" x="1" y="1" />
+  <image name="man1" x="35" y="1" />
+  <image name="man2" x="69" y="1" />
+  <image name="man3" x="1" y="35" />
+  <image name="man4" x="35" y="35" />
+  <image name="man5" x="69" y="35" />
+</main>

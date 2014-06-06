@@ -1,5 +1,6 @@
 ﻿using LiteEngine.Math;
 using LiteEngine.Rendering;
+using LiteEngine.Textures;
 using LiteEngine.UI;
 using LiteEngine.Xna;
 using Microsoft.Xna.Framework;
@@ -18,6 +19,7 @@ namespace Text
         Camera2D _camera;
         VertexPositionColorTexture[] _vertexData = new VertexPositionColorTexture[1000];
         short[] _indexData = new short[1000];
+        Animation _stickmanAnimation = new Animation();
 
         protected override void Initialize(XnaRenderer renderer)
         {
@@ -47,6 +49,14 @@ namespace Text
             _indexData[3] = 2;
             _indexData[4] = 1;
             _indexData[5] = 3;
+
+            TextureBook.AddSpriteSheet(@"Textures\spritesheet1");
+            _stickmanAnimation.AddFrame(TextureBook.GetTexture(@"Textures\spritesheet1.man2"), 1000);
+            _stickmanAnimation.AddFrame(TextureBook.GetTexture(@"Textures\spritesheet1.man1"), 500);
+            _stickmanAnimation.AddFrame(TextureBook.GetTexture(@"Textures\spritesheet1.man3"), 500);
+            _stickmanAnimation.AddFrame(TextureBook.GetTexture(@"Textures\spritesheet1.man4"), 500);
+            _stickmanAnimation.AddFrame(TextureBook.GetTexture(@"Textures\spritesheet1.man5"), 500);
+            _stickmanAnimation.Loop = true;
         }
 
         float _angle = 0;
@@ -84,8 +94,8 @@ namespace Text
 
             renderer.DrawPoint(new Vector2(0, 0), 1f, Color.White, 1f);
 
-
-
+            renderer.DrawSprite(_stickmanAnimation.CurrentTexture, new RectangleF(10, 60, 30, 30));
+            _stickmanAnimation.Advance(gameTime.ElapsedGameTime.Milliseconds);
             //renderer.DrawSprite(new LiteEngine.Textures.Texture("point"), new RectangleF(2, 0, 1, 1), 0.5f, _angle, new Vector2(0.5f,0.5f), Color.Blue);
 
             //renderer.DrawSprite(new LiteEngine.Textures.Texture("point", new RectangleI(0, 0, 32, 32)), new RectangleF(2, 0, 1, 1), 0.5f, _angle, new Vector2(0.5f, 0.5f), Color.Blue);
