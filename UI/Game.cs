@@ -108,6 +108,13 @@ namespace Text
                 Size = new SizeF(200, 200);
                 BorderWidth = 2f;
 
+                TextBox text = new TextBox();
+                text.Text = "This is a dialog";
+                text.TextScale = 2f;
+                text.AutoSize = true;
+                text.Dock = DockPosition.Top;
+                AddChild(text);
+
                 Button okButton = new Button();
                 okButton.Size = new SizeF(100, 50);
                 okButton.Dock = DockPosition.Bottom;
